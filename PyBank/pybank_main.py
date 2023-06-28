@@ -1,8 +1,12 @@
+
+#Import Data
+
 import csv
 from os import path
 my_report = open('analysis/Report.txt', 'w')
 data = csv.DictReader(open(path.join('Resources','budget_data.csv')))
 
+#Define Variables
 months = 0
 total = 0
 pre_rev = 0
@@ -10,11 +14,12 @@ total_ch = 0
 inc = ['',0]
 dec = ['',0]
 
+#Determine Revenue and Months
 for row in data:
     months += 1
     rev = int(row["Profit/Losses"])
     total += rev
-
+    #Prevent the starting value in Jan from affecting the average
     change = rev - pre_rev 
     if pre_rev == 0:
         change = 0
@@ -33,6 +38,7 @@ for row in data:
     
     pre_rev = rev
 
+#Prepare Ouptu
 output = f'''
     Financial Analysis
     ----------------------------
@@ -42,7 +48,7 @@ output = f'''
     Greatest Increase in Profits: {inc[0]} (${inc[1]:,})
     Greatest Decrease in Profits: {dec[0]} (${dec[1]:,})
 '''
-
+#Print Output and write results file
 print(output)
 my_report.write(output)
 
